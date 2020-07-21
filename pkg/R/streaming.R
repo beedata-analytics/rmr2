@@ -372,7 +372,16 @@ rmr.stream =
                              stream.map.output,
                              stream.reduce.input,
                              stream.reduce.output)
-    rscript = 'Rscript --vanilla'
+
+    # Non-default rscript settings (MR script)
+    # bp = rmr.options("backend.parameters");
+    # bp$rscript = "/opt/R/R-3.6.3/bin/Rscript --vanilla";
+    # rmr.options(backend.parameters = bp);
+
+    bp = rmr.options('backend.parameters')
+    rscript = ifelse(
+        is.null(bp[['rscript']]), 'Rscript --vanilla', bp[['rscript']])
+
     mapper = paste.options(
       mapper = 
         paste(
